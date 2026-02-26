@@ -14,7 +14,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap');
         body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; }
         .card { background: white; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
-        .loading-spinner { border: 4px solid #f3f3f3; border-top: 4px solid #3b82f6; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        /* 로딩 스피너 색상도 초록색(#16a34a)으로 변경 */
+        .loading-spinner { border: 4px solid #f3f3f3; border-top: 4px solid #16a34a; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         /* 테이블 헤더 고정용 스타일 */
         .table-container { max-height: 500px; overflow-y: auto; }
@@ -41,23 +42,23 @@
 
         <!-- 대시보드 본문 (로딩 완료 전까지 숨김) -->
         <div id="content" class="hidden">
-            <!-- 1. 핵심 지표 요약 (Summary Stats) -->
+            <!-- 1. 핵심 지표 요약 (Summary Stats) - 테두리와 숫자 색상을 초록색으로 통일 -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                <div class="card p-6 border-l-4 border-blue-500">
+                <div class="card p-6 border-l-4 border-green-500">
                     <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">전체 거래 건수</p>
-                    <p id="statTotalCount" class="text-3xl font-bold text-slate-800 mt-2">0건</p>
+                    <p id="statTotalCount" class="text-3xl font-bold text-green-700 mt-2">0건</p>
                 </div>
-                <div class="card p-6 border-l-4 border-emerald-500">
+                <div class="card p-6 border-l-4 border-green-500">
                     <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">평균 거래가격</p>
-                    <p id="statAvgPrice" class="text-3xl font-bold text-slate-800 mt-2">0만원</p>
+                    <p id="statAvgPrice" class="text-3xl font-bold text-green-700 mt-2">0만원</p>
                 </div>
-                <div class="card p-6 border-l-4 border-indigo-500">
+                <div class="card p-6 border-l-4 border-green-500">
                     <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">최고 거래가격</p>
-                    <p id="statMaxPrice" class="text-3xl font-bold text-slate-800 mt-2">0만원</p>
+                    <p id="statMaxPrice" class="text-3xl font-bold text-green-700 mt-2">0만원</p>
                 </div>
-                <div class="card p-6 border-l-4 border-rose-500">
+                <div class="card p-6 border-l-4 border-green-500">
                     <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">최저 거래가격</p>
-                    <p id="statMinPrice" class="text-3xl font-bold text-slate-800 mt-2">0만원</p>
+                    <p id="statMinPrice" class="text-3xl font-bold text-green-700 mt-2">0만원</p>
                 </div>
             </div>
 
@@ -177,7 +178,8 @@
             
             cleanedData.forEach(row => { 
                 const tr = document.createElement('tr');
-                tr.className = 'hover:bg-blue-50 transition-colors border-b border-slate-100';
+                // 호버 색상도 초록색(green-50)으로 변경
+                tr.className = 'hover:bg-green-50 transition-colors border-b border-slate-100';
                 
                 // 전용면적 소수점 포맷팅
                 const area = parseFloat(row['전용면적(㎡)']);
@@ -190,7 +192,7 @@
                     <td class="p-4 text-slate-600">${displayArea}</td>
                     <td class="p-4 text-slate-600">${row['층']}층</td>
                     <td class="p-4 text-slate-600">${row['건축년도']}년</td>
-                    <td class="p-4 text-right font-bold text-blue-600 text-base">${row.price.toLocaleString()}</td>
+                    <td class="p-4 text-right font-bold text-green-600 text-base">${row.price.toLocaleString()}</td>
                 `;
                 tableBody.appendChild(tr);
             });
@@ -231,13 +233,14 @@
                     datasets: [{
                         label: '월별 평균 거래가 (만원)',
                         data: data,
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        // 차트 선, 배경, 포인트 색상을 초록색(#16a34a)으로 통일
+                        borderColor: '#16a34a',
+                        backgroundColor: 'rgba(22, 163, 74, 0.1)',
                         borderWidth: 3,
                         tension: 0.4, // 부드러운 곡선
                         fill: true,
                         pointBackgroundColor: '#ffffff',
-                        pointBorderColor: '#3b82f6',
+                        pointBorderColor: '#16a34a',
                         pointBorderWidth: 2,
                         pointRadius: 4,
                         pointHoverRadius: 6
