@@ -74,7 +74,7 @@
             <div class="card overflow-hidden">
                 <div class="p-6 border-b border-slate-100">
                     <h2 class="text-xl font-bold text-slate-800">전체 거래 목록</h2>
-                    <p class="text-sm text-slate-500 mt-1">최신 거래일자 순으로 정렬되어 있습니다.</p>
+                    <p class="text-sm text-slate-500 mt-1">최신 거래일자 순으로 정렬되어 있습니다. (15억 이상 거래는 빨간색으로 표시됩니다)</p>
                 </div>
                 <div class="table-container">
                     <table class="w-full text-left border-collapse min-w-[800px]">
@@ -176,14 +176,19 @@
             const tableBody = document.getElementById('tableBody');
             tableBody.innerHTML = '';
             
-            cleanedData.forEach(row => { 
+            cleanedData.forEach((row, index) => { 
                 const tr = document.createElement('tr');
-                // 호버 색상도 초록색(green-50)으로 변경
-                tr.className = 'hover:bg-green-50 transition-colors border-b border-slate-100';
+                
+                // 짝수/홀수 줄무늬 패턴 및 호버 색상(green-100) 적용
+                const bgClass = index % 2 === 0 ? 'bg-white' : 'bg-slate-50';
+                tr.className = `${bgClass} hover:bg-green-100 transition-colors border-b border-slate-200`;
                 
                 // 전용면적 소수점 포맷팅
                 const area = parseFloat(row['전용면적(㎡)']);
                 const displayArea = !isNaN(area) ? area.toFixed(2) : row['전용면적(㎡)'];
+
+                // 15억(150,000만 원) 이상일 경우 빨간색(rose-600) 강조
+                const priceColorClass = row.price >= 150000 ? 'text-rose-600' : 'text-green-600';
 
                 tr.innerHTML = `
                     <td class="p-4 whitespace-nowrap text-slate-500">${formatDate(row['거래일자'])}</td>
@@ -192,7 +197,7 @@
                     <td class="p-4 text-slate-600">${displayArea}</td>
                     <td class="p-4 text-slate-600">${row['층']}층</td>
                     <td class="p-4 text-slate-600">${row['건축년도']}년</td>
-                    <td class="p-4 text-right font-bold text-green-600 text-base">${row.price.toLocaleString()}</td>
+                    <td class="p-4 text-right font-bold ${priceColorClass} text-base">${row.price.toLocaleString()}</td>
                 `;
                 tableBody.appendChild(tr);
             });
